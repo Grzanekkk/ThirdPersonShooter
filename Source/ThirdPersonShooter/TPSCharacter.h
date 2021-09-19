@@ -2,9 +2,12 @@
 
 #pragma once
 
+#include "Gun.h"
+
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "TPSCharacter.generated.h"
+
 
 UCLASS()
 class THIRDPERSONSHOOTER_API ATPSCharacter : public ACharacter
@@ -33,7 +36,15 @@ private:
 	void LookUpRate(float AxisValue);
 	void LookRightRate(float AxisValue);
 	void LookRight(float AxisValue);
+	void Shoot();
 
 	UPROPERTY(EditAnywhere)
 		float ControllerRotarionRate = 50.0f;
+
+	UPROPERTY(EditDefaultsOnly)
+		TSubclassOf<AGun> GunSubclass;
+
+	UPROPERTY()
+		AGun* Gun;
+
 };
