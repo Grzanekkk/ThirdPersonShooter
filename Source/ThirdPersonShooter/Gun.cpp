@@ -40,13 +40,17 @@ void AGun::PullTrigger()
 	FVector LineTraceEnd = ViewPointLocation + ViewPointRotation.Vector() * MaxRange;
 
 	//DrawDebugCamera(GetWorld(), ViewPointLocation, ViewPointRotation, 90, 1, FColor::Red, true);
-
+	FCollisionQueryParams Params;
+	Params.AddIgnoredActor(this);
+	Params.AddIgnoredActor(GetOwner());
 	FHitResult TargetHit;
-	bool bTargetHit = GetWorld()->LineTraceSingleByChannel(TargetHit, ViewPointLocation, LineTraceEnd, ECollisionChannel::ECC_GameTraceChannel1 );	// ECC_EngineTraceChannel1 == "Bullet" trace channel
+	bool bTargetHit = GetWorld()->LineTraceSingleByChannel(TargetHit, ViewPointLocation, LineTraceEnd, ECollisionChannel::ECC_GameTraceChannel1, Params);	// ECC_EngineTraceChannel1 == "Bullet" trace channel
 
 	if (bTargetHit)
 	{
-		DrawDebugPoint(GetWorld(), TargetHit.Location, 15, FColor::Red, true);
+		//DrawDebugPoint(GetWorld(), TargetHit.Location, 15, FColor::Red, true);
+		FVector ShotDirection = -ViewPointRotation.Vector();
+		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), BulletImpact, TargetHit.Location, ShotDirection.Rotation());
 	}
 }
 
