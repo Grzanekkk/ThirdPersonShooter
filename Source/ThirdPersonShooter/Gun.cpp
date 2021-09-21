@@ -43,14 +43,21 @@ void AGun::PullTrigger()
 	FCollisionQueryParams Params;
 	Params.AddIgnoredActor(this);
 	Params.AddIgnoredActor(GetOwner());
-	FHitResult TargetHit;
-	bool bTargetHit = GetWorld()->LineTraceSingleByChannel(TargetHit, ViewPointLocation, LineTraceEnd, ECollisionChannel::ECC_GameTraceChannel1, Params);	// ECC_EngineTraceChannel1 == "Bullet" trace channel
+	FHitResult HitInfo;
+	bool bTargetHit = GetWorld()->LineTraceSingleByChannel(HitInfo, ViewPointLocation, LineTraceEnd, ECollisionChannel::ECC_GameTraceChannel1, Params);	// ECC_EngineTraceChannel1 == "Bullet" trace channel
 
 	if (bTargetHit)
 	{
 		//DrawDebugPoint(GetWorld(), TargetHit.Location, 15, FColor::Red, true);
 		FVector ShotDirection = -ViewPointRotation.Vector();
-		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), BulletImpact, TargetHit.Location, ShotDirection.Rotation());
+		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), BulletImpact, HitInfo.Location, ShotDirection.Rotation());
+
+		AActor* ActorHit = HitInfo.GetActor();
+		if (ActorHit != nullptr)
+		{
+			FPointDamageEvent DamageEvent(Damage, HitInfo, ShotDirection, nullptr);
+			ActorHit->TakeDamage(DamageEvent.Damage, DamageEvent, OwnerController, this);
+		}
 	}
 }
 

@@ -3,7 +3,6 @@
 
 #include "TPSCharacter.h"
 
-
 // Sets default values
 ATPSCharacter::ATPSCharacter()
 {
@@ -17,11 +16,19 @@ void ATPSCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
+	CurrentHealth = MaxHealth;
+
 	Gun = GetWorld()->SpawnActor<AGun>(GunSubclass);
 	GetMesh()->HideBoneByName(TEXT("weapon_r"), EPhysBodyOp::PBO_None);
 	Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("WeaponSocket"));
 	Gun->SetOwner(this);
 	
+
+	// UUserWidget* HUD = CreateWidget(GetWorld(), HUDClass);		// SUPER TEMPORARY
+	// if (HUD != nullptr)
+	// {
+	// 	HUD->AddToViewport();
+	// }
 }
 
 // Called every frame
@@ -29,6 +36,32 @@ void ATPSCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+float ATPSCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	float DamageToApply = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+	DamageToApply = FMath::Min(CurrentHealth, DamageToApply);	// Prevents HP to go below 0
+	CurrentHealth -= DamageToApply;
+
+	UE_LOG(LogTemp, Warning, TEXT("Actor hit! Current health: %f"), CurrentHealth);
+
+	if (CurrentHealth <= 0)
+	{
+		Die();
+	}
+
+	return DamageToApply;
+}
+
+void ATPSCharacter::Die()
+{
+	IsActorDead = true;
+}
+
+bool ATPSCharacter::IsDead() const
+{
+	return IsActorDead;
 }
 
 // Called to bind functionality to input

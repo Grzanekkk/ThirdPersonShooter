@@ -2,6 +2,7 @@
 
 #pragma once
 
+//#include "Blueprint/UserWidget.h"
 #include "Gun.h"
 
 #include "CoreMinimal.h"
@@ -23,11 +24,15 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
+	UFUNCTION(BlueprintPure)
+		bool IsDead() const;
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
 private:
 	void MoveForward(float AxisValue);
@@ -37,6 +42,16 @@ private:
 	void LookRightRate(float AxisValue);
 	void LookRight(float AxisValue);
 	void Shoot();
+	void Die();
+
+	UPROPERTY(EditAnywhere)
+		float MaxHealth = 100;
+
+	UPROPERTY(EditDefaultsOnly)
+		float CurrentHealth;
+
+	UPROPERTY(EditAnywhere)
+		bool IsActorDead = false;
 
 	UPROPERTY(EditAnywhere)
 		float ControllerRotarionRate = 50.0f;
@@ -46,5 +61,8 @@ private:
 
 	UPROPERTY()
 		AGun* Gun;
+
+	// UPROPERTY(EditAnywhere)
+	// 	TSubclassOf<class UUserWidget> HUDClass;
 
 };
