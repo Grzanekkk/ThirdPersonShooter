@@ -8,7 +8,6 @@ ATPSCharacter::ATPSCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
 }
 
 // Called when the game starts or when spawned
@@ -40,14 +39,20 @@ void ATPSCharacter::Tick(float DeltaTime)
 
 float ATPSCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
+	FPointDamageEvent Event = *((FPointDamageEvent*)&DamageEvent);
+	FVector ShotDirection = Event.ShotDirection;
+
 	float DamageToApply = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 	DamageToApply = FMath::Min(CurrentHealth, DamageToApply);	// Prevents HP to go below 0
 	CurrentHealth -= DamageToApply;
 
-	UE_LOG(LogTemp, Warning, TEXT("Actor hit! Current health: %f"), CurrentHealth);
+	UE_LOG(LogTemp, Warning, TEXT("Actor hit! Current health: %f. Shot direction: %s"), CurrentHealth, *ShotDirection.ToString());
 
 	if (CurrentHealth <= 0)
 	{
+		if(ShotDirection.Y > 0)
+			bDiedFromBehind = true;
+
 		Die();
 	}
 
@@ -56,12 +61,17 @@ float ATPSCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEv
 
 void ATPSCharacter::Die()
 {
-	IsActorDead = true;
+	bIsDead = true;
 }
 
 bool ATPSCharacter::IsDead() const
 {
-	return IsActorDead;
+	return bIsDead;
+}
+
+bool ATPSCharacter::DiedFromBehind() const
+{
+	return bDiedFromBehind;
 }
 
 // Called to bind functionality to input

@@ -26,6 +26,10 @@ protected:
 public:	
 	UFUNCTION(BlueprintPure)
 		bool IsDead() const;
+
+	UFUNCTION(BlueprintPure)
+		bool DiedFromBehind() const;
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -51,7 +55,10 @@ private:
 		float CurrentHealth;
 
 	UPROPERTY(EditAnywhere)
-		bool IsActorDead = false;
+		bool bIsDead = false;
+
+	UPROPERTY(VisibleAnywhere)
+		bool bDiedFromBehind = false;
 
 	UPROPERTY(EditAnywhere)
 		float ControllerRotarionRate = 50.0f;
