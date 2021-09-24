@@ -10,14 +10,17 @@ void AShooterAIController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	Player = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
-	AIPawn = GetOwner();
+	PlayerPawn = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+	AIPawn = GetPawn();
 
 	if (BehaviorTree != nullptr)
 	{
 		RunBehaviorTree(BehaviorTree);
+		BlackboardComponent = GetBlackboardComponent();
 
-		GetBlackboardComponent()->SetValueAsVector(TEXT("PlayerLocation"), Player->GetActorLocation());
+		BlackboardComponent->SetValueAsVector(TEXT("StartLocation"), AIPawn->GetActorLocation());
+
+		BlackboardComponent->SetValueAsVector(TEXT("PlayerLocation"), PlayerPawn->GetActorLocation());
 	}
 	else {
 		 UE_LOG(LogTemp, Warning, TEXT("%s has no Behavior Tree attached"), *AIPawn->GetName());
@@ -28,9 +31,24 @@ void AShooterAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	// if (LineOfSightTo(Player))
+	if (LineOfSightTo(PlayerPawn))
+	{
+		BlackboardComponent->SetValueAsVector(TEXT("PlayerLocation"), PlayerPawn->GetActorLocation());
+		BlackboardComponent->SetValueAsVector(TEXT("LastKnownPlayerLocation"), PlayerPawn->GetActorLocation());
+	}
+	else
+	{
+		BlackboardComponent->ClearValue(TEXT("PlayerLocation"));
+	}
+
+
+
+
+
+
+	// if (LineOfSightTo(PlayerPawn))
 	// {
-	// 	SetFocus(Player);
+	// 	SetFocus(PlayerPawn);
 	// 	MoveToActor(Player, 300.0f);
 	// }
 	// else

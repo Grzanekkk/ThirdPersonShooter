@@ -19,8 +19,10 @@ protected:
 	virtual void Tick(float DeltaTime) override;
 
 private:
-	AActor* AIPawn;
-	AActor* Player;
+	APawn* AIPawn;
+	APawn* PlayerPawn;
+
+	UBlackboardComponent* BlackboardComponent;
 
 	UPROPERTY(EditAnywhere)
 		UBehaviorTree* BehaviorTree;
