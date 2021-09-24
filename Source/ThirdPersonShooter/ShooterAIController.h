@@ -20,4 +20,8 @@ protected:
 
 private:
 	AActor* AIPawn;
+	AActor* Player;
+
+	UPROPERTY(EditAnywhere)
+		UBehaviorTree* BehaviorTree;
 };
