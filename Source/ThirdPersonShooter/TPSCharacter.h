@@ -38,6 +38,9 @@ public:
 
 	float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
+	void Shoot();
+	void Die();
+
 private:
 	void MoveForward(float AxisValue);
 	void MoveRight(float AxisValue);
@@ -45,8 +48,7 @@ private:
 	void LookUpRate(float AxisValue);
 	void LookRightRate(float AxisValue);
 	void LookRight(float AxisValue);
-	void Shoot();
-	void Die();
+	
 
 	UPROPERTY(EditAnywhere)
 		float MaxHealth = 100;
