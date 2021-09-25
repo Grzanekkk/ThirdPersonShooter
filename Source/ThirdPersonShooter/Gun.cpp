@@ -37,6 +37,7 @@ void AGun::PullTrigger()
 	OwnerController->GetActorEyesViewPoint(ViewPointLocation, ViewPointRotation);
 	
 	FVector LineTraceEnd = ViewPointLocation + ViewPointRotation.Vector() * MaxRange;
+	//FVector LineTraceEnd = ViewPointLocation + ViewPointRotation.Vector() * MaxRange;
 
 	//DrawDebugCamera(GetWorld(), ViewPointLocation, ViewPointRotation, 90, 1, FColor::Red, true);
 	FCollisionQueryParams Params;

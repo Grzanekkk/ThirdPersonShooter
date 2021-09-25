@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include "Blueprint/UserWidget.h"
+
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
 #include "TPSPlayerController.generated.h"
@@ -17,7 +19,16 @@ class THIRDPERSONSHOOTER_API ATPSPlayerController : public APlayerController
 public:
 	virtual void GameHasEnded(class AActor* EndGameFocus = nullptr, bool bIsWinner = false) override;
 
+protected:
+	virtual void BeginPlay() override;
+
 private:
+	UPROPERTY(EditAnywhere)
+		TSubclassOf<UUserWidget> LoseScreenClass;
+
+	UPROPERTY(EditAnywhere)
+		TSubclassOf<UUserWidget> HUDClass;
+
 	UPROPERTY(EditAnywhere)
 		float LevelRestartDelay = 5.f;
 
