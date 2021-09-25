@@ -3,3 +3,7 @@
 
 #include "ThirdPersonShooterGameModeBase.h"
 
+void AThirdPersonShooterGameModeBase::PawnKilled(APawn* PawnKilled)
+{
+
+}

@@ -1,7 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "TPSCharacter.h"
+#include "ThirdPersonShooterGameModeBase.h"
+
+#include "Components/CapsuleComponent.h"
 
 // Sets default values
 ATPSCharacter::ATPSCharacter()
@@ -39,28 +41,41 @@ void ATPSCharacter::Tick(float DeltaTime)
 
 float ATPSCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
-	FPointDamageEvent Event = *((FPointDamageEvent*)&DamageEvent);
-	FVector ShotDirection = Event.ShotDirection;
-
-	float DamageToApply = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
-	DamageToApply = FMath::Min(CurrentHealth, DamageToApply);	// Prevents HP to go below 0
-	CurrentHealth -= DamageToApply;
-
-	UE_LOG(LogTemp, Warning, TEXT("Actor hit! Current health: %f. Shot direction: %s"), CurrentHealth, *ShotDirection.ToString());
-
-	if (CurrentHealth <= 0)
+	if (!IsDead())
 	{
-		if(ShotDirection.Y > 0)
-			bDiedFromBehind = true;
 
-		Die();
+		FPointDamageEvent Event = *((FPointDamageEvent*)&DamageEvent);
+		FVector ShotDirection = Event.ShotDirection;
+
+		float DamageToApply = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+		DamageToApply = FMath::Min(CurrentHealth, DamageToApply);	// Prevents HP to go below 0
+		CurrentHealth -= DamageToApply;
+
+		UE_LOG(LogTemp, Warning, TEXT("Actor hit! Current health: %f. Shot direction: %s"), CurrentHealth, *ShotDirection.ToString());
+
+		if (CurrentHealth <= 0)
+		{
+			if (ShotDirection.Y > 0)
+				bDiedFromBehind = true;
+
+			Die();
+		}
+
+		return DamageToApply;
 	}
 
-	return DamageToApply;
+	return 0;
 }
 
 void ATPSCharacter::Die()
 {
+	DetachFromControllerPendingDestroy();
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	AThirdPersonShooterGameModeBase* GameMode = GetWorld()->GetAuthGameMode<AThirdPersonShooterGameModeBase>();
+
+	if (GameMode != nullptr)
+		GameMode->PawnKilled(this);
+
 	bIsDead = true;
 }
 
