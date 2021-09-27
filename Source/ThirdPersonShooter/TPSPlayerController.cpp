@@ -17,7 +17,11 @@ void ATPSPlayerController::GameHasEnded(class AActor* EndGameFocus, bool bIsWinn
 
 	if (bIsWinner)	// Win
 	{
-		UE_LOG(LogTemp, Warning, TEXT("You Win :)"))
+		UE_LOG(LogTemp, Warning, TEXT("You Win :)"));
+
+		UUserWidget* WinScreen = CreateWidget(this, WinScreenClass);
+		if (WinScreen != nullptr)
+			WinScreen->AddToViewport();
 	}
 	else			// Loose
 	{
@@ -26,8 +30,7 @@ void ATPSPlayerController::GameHasEnded(class AActor* EndGameFocus, bool bIsWinn
 		UUserWidget* LoseScreen = CreateWidget(this, LoseScreenClass);
 		if (LoseScreen != nullptr)
 			LoseScreen->AddToViewport();
-
-		GetWorldTimerManager().SetTimer(RestartTimer, this, &APlayerController::RestartLevel, LevelRestartDelay);
-
 	}
+	
+	GetWorldTimerManager().SetTimer(RestartTimer, this, &APlayerController::RestartLevel, LevelRestartDelay);
 }

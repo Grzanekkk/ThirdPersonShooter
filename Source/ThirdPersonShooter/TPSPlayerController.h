@@ -27,6 +27,9 @@ private:
 		TSubclassOf<UUserWidget> LoseScreenClass;
 
 	UPROPERTY(EditAnywhere)
+		TSubclassOf<UUserWidget> WinScreenClass;
+
+	UPROPERTY(EditAnywhere)
 		TSubclassOf<UUserWidget> HUDClass;
 
 	UPROPERTY(EditAnywhere)

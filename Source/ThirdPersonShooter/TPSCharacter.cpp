@@ -69,14 +69,14 @@ float ATPSCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEv
 
 void ATPSCharacter::Die()
 {
+	bIsDead = true;
+
 	AThirdPersonShooterGameModeBase* GameMode = GetWorld()->GetAuthGameMode<AThirdPersonShooterGameModeBase>();
 	if (GameMode != nullptr)
 		GameMode->PawnKilled(this);
 	
 	DetachFromControllerPendingDestroy();
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-
-	bIsDead = true;
 }
 
 bool ATPSCharacter::IsDead() const
