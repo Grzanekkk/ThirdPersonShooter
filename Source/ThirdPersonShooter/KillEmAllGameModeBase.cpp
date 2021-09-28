@@ -35,24 +35,5 @@ void AKillEmAllGameModeBase::EndGame(bool bIsPlayerWinner)
 	{
 		bool bIsControllerWinner = Controller->IsPlayerController() == bIsPlayerWinner;
 		Controller->GameHasEnded(Controller->GetPawn(), bIsControllerWinner);
-
-
-		/*if (bIsPlayerWinner)
-		{
-			Controller->GameHasEnded(nullptr, bIsPlayerController);
-		}
-		else
-		{
-			Controller->GameHasEnded(nullptr, !bIsPlayerController);
-		}*/
-
-		/*if ((Controller->IsPlayerController() && bIsPlayerWinner) || (!Controller->IsPlayerController() && !bIsPlayerWinner))
-		{
-			UE_LOG(LogTemp, Warning, TEXT("%s Pawn won the game!"), Controller->GetParentActor()->GetName());
-		}
-		else
-		{
-			UE_LOG(LogTemp, Warning, TEXT("%s Pawn lose the game!"), Controller->GetParentActor()->GetName());
-		}*/
 	}
 }

@@ -10,9 +10,11 @@ UCLASS()
 class THIRDPERSONSHOOTER_API AGun : public AActor
 {
 	GENERATED_BODY()
-	
+
 public:	
-	// Sets default values for this actor's properties
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
 	AGun();
 
 	void PullTrigger();
@@ -20,10 +22,6 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 
 private:
 	UPROPERTY(VisibleAnywhere)
@@ -43,4 +41,7 @@ private:
 
 	UPROPERTY(EditAnywhere)
 		float Damage = 20;
+
+	bool HitScanTrace(FHitResult &outHitInfo, FVector &outShotDirection);
+	AController* GetOwnerController() const;
 };

@@ -43,7 +43,6 @@ float ATPSCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEv
 {
 	if (!IsDead())
 	{
-
 		FPointDamageEvent Event = *((FPointDamageEvent*)&DamageEvent);
 		FVector ShotDirection = Event.ShotDirection;
 
