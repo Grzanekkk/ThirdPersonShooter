@@ -6,7 +6,7 @@
 
 void ATPSPlayerController::BeginPlay()
 {
-	UUserWidget* HUD = CreateWidget(this, HUDClass);
+	HUD = CreateWidget(this, HUDClass);
 	if (HUD != nullptr)
 		HUD->AddToViewport();
 }
@@ -14,6 +14,8 @@ void ATPSPlayerController::BeginPlay()
 void ATPSPlayerController::GameHasEnded(class AActor* EndGameFocus, bool bIsWinner)
 {
 	Super::GameHasEnded(EndGameFocus, bIsWinner);
+
+	HUD->RemoveFromViewport();
 
 	if (bIsWinner)	// Win
 	{

@@ -28,6 +28,9 @@ public:
 		bool IsDead() const;
 
 	UFUNCTION(BlueprintPure)
+		float GetHealthPercent() const;
+
+	UFUNCTION(BlueprintPure)
 		bool DiedFromBehind() const;
 
 	// Called every frame

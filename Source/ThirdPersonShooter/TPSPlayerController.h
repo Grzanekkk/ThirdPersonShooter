@@ -36,4 +36,7 @@ private:
 		float LevelRestartDelay = 5.f;
 
 	FTimerHandle RestartTimer;
+	
+	UPROPERTY()
+	UUserWidget* HUD;
 };

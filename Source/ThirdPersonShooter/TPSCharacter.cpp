@@ -23,13 +23,6 @@ void ATPSCharacter::BeginPlay()
 	GetMesh()->HideBoneByName(TEXT("weapon_r"), EPhysBodyOp::PBO_None);
 	Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("WeaponSocket"));
 	Gun->SetOwner(this);
-	
-
-	// UUserWidget* HUD = CreateWidget(GetWorld(), HUDClass);		// SUPER TEMPORARY
-	// if (HUD != nullptr)
-	// {
-	// 	HUD->AddToViewport();
-	// }
 }
 
 // Called every frame
@@ -81,6 +74,11 @@ void ATPSCharacter::Die()
 bool ATPSCharacter::IsDead() const
 {
 	return bIsDead;
+}
+
+float ATPSCharacter::GetHealthPercent() const
+{
+	return CurrentHealth / MaxHealth;
 }
 
 bool ATPSCharacter::DiedFromBehind() const
