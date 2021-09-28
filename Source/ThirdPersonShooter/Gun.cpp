@@ -24,6 +24,7 @@ void AGun::PullTrigger()
 {
 	UE_LOG(LogTemp, Warning, TEXT("PEW!"));
 	UGameplayStatics::SpawnEmitterAttached(MuzzleFlash, Mesh, TEXT("MuzzleFlashSocket"));
+	UGameplayStatics::SpawnSoundAttached(MuzzleSound, Mesh, TEXT("MuzzleFlashSocket"));
 
 	FHitResult HitInfo;
 	FVector ShotDirection;
@@ -33,14 +34,20 @@ void AGun::PullTrigger()
 	{
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), BulletImpact, HitInfo.Location, ShotDirection.Rotation());
 
-		AActor* ActorHit = HitInfo.GetActor();
-		if (ActorHit != nullptr)
+		APawn* PawnHit = Cast<APawn>(HitInfo.GetActor());
+		if (PawnHit != nullptr)
 		{
+			UGameplayStatics::SpawnSoundAtLocation(GetWorld(), EnemyImpactSound, HitInfo.Location, ShotDirection.Rotation());
+			UE_LOG(LogTemp, Warning, TEXT("Actor Hit!"));
 			AController* OwnerController = GetOwnerController();
 			if (OwnerController == nullptr) return;
 
 			FPointDamageEvent DamageEvent(Damage, HitInfo, ShotDirection, nullptr);
-			ActorHit->TakeDamage(DamageEvent.Damage, DamageEvent, OwnerController, this);
+			PawnHit->TakeDamage(DamageEvent.Damage, DamageEvent, OwnerController, this);
+		}
+		else	// We didn't hit an actor
+		{
+			UGameplayStatics::SpawnSoundAtLocation(GetWorld(), TerrainImpactSound, HitInfo.Location, ShotDirection.Rotation());
 		}
 	}
 }

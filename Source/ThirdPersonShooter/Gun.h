@@ -34,6 +34,15 @@ private:
 		UParticleSystem* MuzzleFlash;
 
 	UPROPERTY(EditAnywhere)
+		USoundBase* MuzzleSound;
+
+	UPROPERTY(EditAnywhere)
+		USoundBase* TerrainImpactSound;
+
+	UPROPERTY(EditAnywhere)
+		USoundBase* EnemyImpactSound;
+
+	UPROPERTY(EditAnywhere)
 		UParticleSystem* BulletImpact;
 
 	UPROPERTY(EditAnywhere)
