@@ -2,12 +2,14 @@
 
 #pragma once
 
+#include "Weapon.h"
+
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Gun.generated.h"
 
 UCLASS()
-class THIRDPERSONSHOOTER_API AGun : public AActor
+class THIRDPERSONSHOOTER_API AGun : public AWeapon
 {
 	GENERATED_BODY()
 
@@ -23,34 +25,6 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-private:
-	UPROPERTY(VisibleAnywhere)
-		USceneComponent* Root;
-
-	UPROPERTY(VisibleAnywhere)
-		USkeletalMeshComponent* Mesh;
-
-	UPROPERTY(EditAnywhere)
-		UParticleSystem* MuzzleFlash;
-
-	UPROPERTY(EditAnywhere)
-		USoundBase* MuzzleSound;
-
-	UPROPERTY(EditAnywhere)
-		USoundBase* TerrainImpactSound;
-
-	UPROPERTY(EditAnywhere)
-		USoundBase* EnemyImpactSound;
-
-	UPROPERTY(EditAnywhere)
-		UParticleSystem* BulletImpact;
-
-	UPROPERTY(EditAnywhere)
-		float MaxRange = 10000;
-
-	UPROPERTY(EditAnywhere)
-		float Damage = 20;
-
 	bool HitScanTrace(FHitResult &outHitInfo, FVector &outShotDirection);
-	AController* GetOwnerController() const;
+
 };

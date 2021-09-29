@@ -74,14 +74,6 @@ bool AGun::HitScanTrace(FHitResult& outHitInfo, FVector& outShotDirection)
 	return GetWorld()->LineTraceSingleByChannel(outHitInfo, ViewPointLocation, LineTraceEnd, ECollisionChannel::ECC_GameTraceChannel1, Params);	// ECC_EngineTraceChannel1 == "Bullet" trace channel
 }
 
-AController* AGun::GetOwnerController() const
-{
-	APawn* OwnerPawn = Cast<APawn>(GetOwner());
-	if (OwnerPawn == nullptr) return nullptr;
-
-	return OwnerPawn->GetController();
-}
-
 // Called when the game starts or when spawned
 void AGun::BeginPlay()
 {
