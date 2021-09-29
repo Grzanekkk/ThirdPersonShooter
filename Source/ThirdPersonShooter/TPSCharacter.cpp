@@ -86,6 +86,11 @@ bool ATPSCharacter::DiedFromBehind() const
 	return bDiedFromBehind;
 }
 
+bool ATPSCharacter::IsShooting() const
+{
+	return bIsShooting;
+}
+
 // Called to bind functionality to input
 void ATPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
@@ -100,6 +105,7 @@ void ATPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 	
 	PlayerInputComponent->BindAction(TEXT("Jump"), EInputEvent::IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction(TEXT("Shoot"), EInputEvent::IE_Pressed, this, &ATPSCharacter::Shoot);
+	PlayerInputComponent->BindAction(TEXT("Shoot"), EInputEvent::IE_Released, this, &ATPSCharacter::StopShooting);
 }
 
 void ATPSCharacter::MoveForward(float AxisValue)
@@ -134,7 +140,13 @@ void ATPSCharacter::LookRightRate(float AxisValue)
 
 void ATPSCharacter::Shoot()
 {
+	bIsShooting = true;
 	Gun->PullTrigger();
+}
+
+void ATPSCharacter::StopShooting()
+{
+	bIsShooting = false;
 }
 
 

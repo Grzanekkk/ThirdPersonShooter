@@ -28,6 +28,9 @@ public:
 		bool IsDead() const;
 
 	UFUNCTION(BlueprintPure)
+		bool IsShooting() const;
+
+	UFUNCTION(BlueprintPure)
 		float GetHealthPercent() const;
 
 	UFUNCTION(BlueprintPure)
@@ -42,6 +45,7 @@ public:
 	float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
 	void Shoot();
+	void StopShooting();
 	void Die();
 
 private:
@@ -61,6 +65,9 @@ private:
 
 	UPROPERTY(EditAnywhere)
 		bool bIsDead = false;
+
+	UPROPERTY()
+		bool bIsShooting = false;
 
 	UPROPERTY(VisibleAnywhere)
 		bool bDiedFromBehind = false;
