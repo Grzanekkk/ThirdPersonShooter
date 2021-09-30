@@ -3,6 +3,7 @@
 #pragma once
 
 #include "TimerManager.h"
+#include "Components/Image.h"
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
@@ -60,6 +61,9 @@ protected:
 
 	UPROPERTY(EditAnywhere)
 		USoundBase* EmptyMagSound;
+
+	UPROPERTY(EditAnywhere)
+		UImage* WeaponIcon;
 
 	UPROPERTY(EditAnywhere)
 		float MaxRange = 10000;
