@@ -35,8 +35,9 @@ private:
 	UPROPERTY(EditAnywhere)
 		float LevelRestartDelay = 5.f;
 
-	FTimerHandle RestartTimer;
+	UPROPERTY()
+		FTimerHandle RestartTimer;
 	
 	UPROPERTY()
-	UUserWidget* HUD;
+		UUserWidget* HUD;
 };

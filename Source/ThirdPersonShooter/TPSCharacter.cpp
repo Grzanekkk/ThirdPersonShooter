@@ -19,7 +19,7 @@ void ATPSCharacter::BeginPlay()
 
 	CurrentHealth = MaxHealth;
 
-	Gun = GetWorld()->SpawnActor<AGun>(GunSubclass);
+	Gun = GetWorld()->SpawnActor<AWeapon>(WeaponSubclass);
 	GetMesh()->HideBoneByName(TEXT("weapon_r"), EPhysBodyOp::PBO_None);
 	Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("WeaponSocket"));
 	Gun->SetOwner(this);
@@ -47,7 +47,7 @@ float ATPSCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEv
 
 		if (CurrentHealth <= 0)
 		{
-			if (ShotDirection.Y > 0)
+			if (ShotDirection.Y > 0)		// Kinda not working
 				bDiedFromBehind = true;
 
 			Die();
@@ -103,6 +103,7 @@ void ATPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 	PlayerInputComponent->BindAxis(TEXT("LookRightRate"), this, &ATPSCharacter::LookRightRate);
 	PlayerInputComponent->BindAxis(TEXT("LookRight"), this, &ATPSCharacter::LookRight);
 	
+	PlayerInputComponent->BindAction(TEXT("Reload"), EInputEvent::IE_Pressed, this, &ATPSCharacter::Reload);
 	PlayerInputComponent->BindAction(TEXT("Jump"), EInputEvent::IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction(TEXT("Shoot"), EInputEvent::IE_Pressed, this, &ATPSCharacter::Shoot);
 	PlayerInputComponent->BindAction(TEXT("Shoot"), EInputEvent::IE_Released, this, &ATPSCharacter::StopShooting);
@@ -140,13 +141,18 @@ void ATPSCharacter::LookRightRate(float AxisValue)
 
 void ATPSCharacter::Shoot()
 {
-	bIsShooting = true;
-	Gun->PullTrigger();
+	if(Gun->PullTrigger())
+		bIsShooting = true;
 }
 
 void ATPSCharacter::StopShooting()
 {
 	bIsShooting = false;
+}
+
+void ATPSCharacter::Reload()
+{
+	Gun->Reload();
 }
 
 

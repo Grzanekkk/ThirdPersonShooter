@@ -35,4 +35,5 @@ void ATPSPlayerController::GameHasEnded(class AActor* EndGameFocus, bool bIsWinn
 	}
 	
 	GetWorldTimerManager().SetTimer(RestartTimer, this, &APlayerController::RestartLevel, LevelRestartDelay);
+	UE_LOG(LogTemp, Warning, TEXT("Wainting..."));
 }

@@ -3,8 +3,8 @@
 
 #include "Gun.h"
 
-#include "Components/SkeletalMeshComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Components/SkeletalMeshComponent.h"
 #include "DrawDebugHelpers.h"
 
 // Sets default values
@@ -18,13 +18,15 @@ AGun::AGun()
 
 	Mesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh"));
 	Mesh->SetupAttachment(Root);
+
+	CurrentAmmo = MAX_AMMO;
+	AmmoInMag = MAG_CAPACITY;
 }
 
-void AGun::PullTrigger()
+bool AGun::PullTrigger()
 {
-	UE_LOG(LogTemp, Warning, TEXT("PEW!"));
-	UGameplayStatics::SpawnEmitterAttached(MuzzleFlash, Mesh, TEXT("MuzzleFlashSocket"));
-	UGameplayStatics::SpawnSoundAttached(MuzzleSound, Mesh, TEXT("MuzzleFlashSocket"));
+	if (!AWeapon::PullTrigger())
+		return false;
 
 	FHitResult HitInfo;
 	FVector ShotDirection;
@@ -40,7 +42,7 @@ void AGun::PullTrigger()
 			UGameplayStatics::SpawnSoundAtLocation(GetWorld(), EnemyImpactSound, HitInfo.Location, ShotDirection.Rotation());
 			UE_LOG(LogTemp, Warning, TEXT("Actor Hit!"));
 			AController* OwnerController = GetOwnerController();
-			if (OwnerController == nullptr) return;
+			if (OwnerController == nullptr) return true;
 
 			FPointDamageEvent DamageEvent(Damage, HitInfo, ShotDirection, nullptr);
 			PawnHit->TakeDamage(DamageEvent.Damage, DamageEvent, OwnerController, this);
@@ -50,6 +52,13 @@ void AGun::PullTrigger()
 			UGameplayStatics::SpawnSoundAtLocation(GetWorld(), TerrainImpactSound, HitInfo.Location, ShotDirection.Rotation());
 		}
 	}
+
+	return true;
+}
+
+void AGun::Reload()
+{
+	AWeapon::Reload();
 }
 
 bool AGun::HitScanTrace(FHitResult& outHitInfo, FVector& outShotDirection)

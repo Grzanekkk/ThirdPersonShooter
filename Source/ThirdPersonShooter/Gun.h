@@ -19,12 +19,12 @@ public:
 
 	AGun();
 
-	void PullTrigger();
+	bool PullTrigger() override;
+	void Reload() override;
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	bool HitScanTrace(FHitResult &outHitInfo, FVector &outShotDirection);
-
 };

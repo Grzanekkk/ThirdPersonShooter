@@ -44,6 +44,7 @@ public:
 
 	float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
+	void Reload();
 	void Shoot();
 	void StopShooting();
 	void Die();
@@ -76,10 +77,10 @@ private:
 		float ControllerRotarionRate = 50.0f;
 
 	UPROPERTY(EditDefaultsOnly)
-		TSubclassOf<AGun> GunSubclass;
+		TSubclassOf<AWeapon> WeaponSubclass;
 
 	UPROPERTY()
-		AGun* Gun;
+		AWeapon* Gun;
 
 	// UPROPERTY(EditAnywhere)
 	// 	TSubclassOf<class UUserWidget> HUDClass;
