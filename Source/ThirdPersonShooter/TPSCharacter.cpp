@@ -91,6 +91,11 @@ bool ATPSCharacter::IsShooting() const
 	return bIsShooting;
 }
 
+AWeapon* ATPSCharacter::GetWieldedWeapon() const
+{
+	return Gun;
+}
+
 // Called to bind functionality to input
 void ATPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
@@ -154,5 +159,3 @@ void ATPSCharacter::Reload()
 {
 	Gun->Reload();
 }
-
-

@@ -19,8 +19,6 @@ AGun::AGun()
 	Mesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh"));
 	Mesh->SetupAttachment(Root);
 
-	CurrentAmmo = MAX_AMMO;
-	AmmoInMag = MAG_CAPACITY;
 }
 
 bool AGun::PullTrigger()

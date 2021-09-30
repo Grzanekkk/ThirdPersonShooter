@@ -23,13 +23,13 @@ AController* AWeapon::GetOwnerController() const
 
 bool AWeapon::PullTrigger()
 {
-	if (AmmoInMag == 0)
+	if (LoadedAmmo == 0)
 	{
 		UGameplayStatics::SpawnSoundAttached(EmptyMagSound, Mesh, TEXT("MuzzleFlashSocket"));
 		return false;
 	}
 
-	AmmoInMag--;
+	LoadedAmmo--;
 
 	UE_LOG(LogTemp, Warning, TEXT("PEW!"));
 	UGameplayStatics::SpawnEmitterAttached(MuzzleFlash, Mesh, TEXT("MuzzleFlashSocket"));
@@ -40,7 +40,7 @@ bool AWeapon::PullTrigger()
 
 void AWeapon::Reload()
 {
-	if (AmmoInMag != MAG_CAPACITY)
+	if (LoadedAmmo != MAG_CAPACITY)
 	{
 		GetWorldTimerManager().SetTimer(ReloadTimeHandler, this, &AWeapon::ReloadAfterDelay, ReloadTime);
 		UGameplayStatics::SpawnSoundAttached(ReloadSound, Mesh, TEXT("MuzzleFlashSocket"));
@@ -51,16 +51,23 @@ void AWeapon::ReloadAfterDelay()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Reloading!"));
 
-	int AmmoToReload = FMath::Min(MAG_CAPACITY - AmmoInMag, CurrentAmmo);	// Prevents from reloading more ammo then we have
-	AmmoInMag += AmmoToReload;
+	int AmmoToReload = FMath::Min(MAG_CAPACITY - LoadedAmmo, CurrentAmmo);	// Prevents from reloading more ammo then we have
+	LoadedAmmo += AmmoToReload;
 	CurrentAmmo -= AmmoToReload;
+}
+
+int AWeapon::GetLoadedAmmo() const
+{
+	return LoadedAmmo;
 }
 
 // Called when the game starts or when spawned
 void AWeapon::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	CurrentAmmo = MAX_AMMO;
+	LoadedAmmo = MAG_CAPACITY;
 }
 
 // Called every frame
@@ -69,4 +76,3 @@ void AWeapon::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 }
-

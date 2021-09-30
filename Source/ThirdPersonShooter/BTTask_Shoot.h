@@ -3,6 +3,7 @@
 #pragma once
 
 #include "TPSCharacter.h"
+#include "Weapon.h"
 
 #include "CoreMinimal.h"
 #include "BehaviorTree/BTTaskNode.h"
@@ -24,4 +25,6 @@ protected:
 
 private:
 	ATPSCharacter* AICharacter;
+	AWeapon* AIWeapon;
+	bool bCanReload = false;
 };

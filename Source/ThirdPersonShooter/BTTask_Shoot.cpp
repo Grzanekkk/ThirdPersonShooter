@@ -14,11 +14,21 @@ EBTNodeResult::Type UBTTask_Shoot::ExecuteTask(UBehaviorTreeComponent& OwnerComp
 	Super::ExecuteTask(OwnerComp, NodeMemory);
 
 	AICharacter = Cast<ATPSCharacter>(OwnerComp.GetAIOwner()->GetPawn());
+	AIWeapon = AICharacter->GetWieldedWeapon();
 
 	if (AICharacter == nullptr)
 		return EBTNodeResult::Failed;
 
-	AICharacter->ATPSCharacter::Shoot();
+	if (AIWeapon->GetLoadedAmmo() != 0)
+	{
+		bCanReload = true;
+		AICharacter->ATPSCharacter::Shoot();
+	}
+	else if(bCanReload)
+	{
+		bCanReload = false;
+		AICharacter->Reload();
+	}
 
 	return EBTNodeResult::Succeeded;
 }

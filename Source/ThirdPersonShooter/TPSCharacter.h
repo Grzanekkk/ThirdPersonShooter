@@ -28,13 +28,17 @@ public:
 		bool IsDead() const;
 
 	UFUNCTION(BlueprintPure)
+		bool DiedFromBehind() const;
+
+	UFUNCTION(BlueprintPure)
 		bool IsShooting() const;
 
 	UFUNCTION(BlueprintPure)
 		float GetHealthPercent() const;
 
 	UFUNCTION(BlueprintPure)
-		bool DiedFromBehind() const;
+		AWeapon* GetWieldedWeapon() const;
+
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

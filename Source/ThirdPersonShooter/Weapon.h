@@ -19,6 +19,7 @@ public:
 
 	virtual bool PullTrigger();
 	virtual void Reload();
+	int GetLoadedAmmo() const;
 
 protected:
 	// Called when the game starts or when spawned
@@ -72,11 +73,11 @@ protected:
 	UPROPERTY(EditAnywhere)
 		int MAG_CAPACITY = 20;
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(EditAnywhere)
 		int CurrentAmmo;
 
-	UPROPERTY(VisibleAnywhere)
-		int AmmoInMag;
+	UPROPERTY(EditAnywhere)
+		int LoadedAmmo;
 
 	UPROPERTY(EditAnywhere)
 		float ReloadTime = 1.6f;
