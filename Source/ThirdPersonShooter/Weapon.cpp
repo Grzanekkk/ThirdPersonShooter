@@ -71,6 +71,11 @@ int AWeapon::GetCurrentAmmo() const
 	return CurrentAmmo;
 }
 
+UTexture2D* AWeapon::GetIcon() const
+{
+	return WeaponIcon;
+}
+
 // Called when the game starts or when spawned
 void AWeapon::BeginPlay()
 {

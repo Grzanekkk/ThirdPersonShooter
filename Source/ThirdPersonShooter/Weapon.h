@@ -30,6 +30,9 @@ public:
 	UFUNCTION(BlueprintPure)
 		FString GetName() const;
 
+	UFUNCTION(BlueprintPure)
+		UTexture2D* GetIcon() const;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -71,7 +74,7 @@ protected:
 		USoundBase* EmptyMagSound;
 
 	UPROPERTY(EditAnywhere)
-		UImage* WeaponIcon;
+		UTexture2D* WeaponIcon;
 
 	UPROPERTY(EditAnywhere)
 		float MaxRange = 10000;
