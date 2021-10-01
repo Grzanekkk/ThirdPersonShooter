@@ -37,7 +37,7 @@ public:
 		float GetHealthPercent() const;
 
 	UFUNCTION(BlueprintPure)
-		AWeapon* GetWieldedWeapon() const;
+		AWeapon* GetEquippedWeapon() const;
 
 
 	// Called every frame
@@ -84,9 +84,5 @@ private:
 		TSubclassOf<AWeapon> WeaponSubclass;
 
 	UPROPERTY()
-		AWeapon* Gun;
-
-	// UPROPERTY(EditAnywhere)
-	// 	TSubclassOf<class UUserWidget> HUDClass;
-
+		AWeapon* EquippedGun;
 };

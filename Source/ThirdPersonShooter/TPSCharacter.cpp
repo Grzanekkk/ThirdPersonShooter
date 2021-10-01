@@ -19,10 +19,10 @@ void ATPSCharacter::BeginPlay()
 
 	CurrentHealth = MaxHealth;
 
-	Gun = GetWorld()->SpawnActor<AWeapon>(WeaponSubclass);
+	EquippedGun = GetWorld()->SpawnActor<AWeapon>(WeaponSubclass);
 	GetMesh()->HideBoneByName(TEXT("weapon_r"), EPhysBodyOp::PBO_None);
-	Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("WeaponSocket"));
-	Gun->SetOwner(this);
+	EquippedGun->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("WeaponSocket"));
+	EquippedGun->SetOwner(this);
 }
 
 // Called every frame
@@ -91,9 +91,9 @@ bool ATPSCharacter::IsShooting() const
 	return bIsShooting;
 }
 
-AWeapon* ATPSCharacter::GetWieldedWeapon() const
+AWeapon* ATPSCharacter::GetEquippedWeapon() const
 {
-	return Gun;
+	return EquippedGun;
 }
 
 // Called to bind functionality to input
@@ -146,7 +146,7 @@ void ATPSCharacter::LookRightRate(float AxisValue)
 
 void ATPSCharacter::Shoot()
 {
-	if(Gun->PullTrigger())
+	if(EquippedGun->PullTrigger())
 		bIsShooting = true;
 }
 
@@ -157,5 +157,5 @@ void ATPSCharacter::StopShooting()
 
 void ATPSCharacter::Reload()
 {
-	Gun->Reload();
+	EquippedGun->Reload();
 }

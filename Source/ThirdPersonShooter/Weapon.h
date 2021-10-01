@@ -20,7 +20,15 @@ public:
 
 	virtual bool PullTrigger();
 	virtual void Reload();
-	int GetLoadedAmmo() const;
+
+	UFUNCTION(BlueprintPure)
+		int GetCurrentAmmo() const;
+
+	UFUNCTION(BlueprintPure)
+		int GetLoadedAmmo() const;
+
+	UFUNCTION(BlueprintPure)
+		FString GetName() const;
 
 protected:
 	// Called when the game starts or when spawned
@@ -88,6 +96,9 @@ protected:
 
 	UPROPERTY(EditAnywhere)		// Shots per second
 		float FireRate = 4.f;
+
+	UPROPERTY(EditAnywhere)
+		FString Name;
 
 	UPROPERTY()
 		FTimerHandle ReloadTimeHandler;

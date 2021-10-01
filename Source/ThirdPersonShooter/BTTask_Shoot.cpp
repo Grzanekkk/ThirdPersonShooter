@@ -14,7 +14,7 @@ EBTNodeResult::Type UBTTask_Shoot::ExecuteTask(UBehaviorTreeComponent& OwnerComp
 	Super::ExecuteTask(OwnerComp, NodeMemory);
 
 	AICharacter = Cast<ATPSCharacter>(OwnerComp.GetAIOwner()->GetPawn());
-	AIWeapon = AICharacter->GetWieldedWeapon();
+	AIWeapon = AICharacter->GetEquippedWeapon();
 
 	if (AICharacter == nullptr)
 		return EBTNodeResult::Failed;

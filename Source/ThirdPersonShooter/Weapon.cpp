@@ -61,6 +61,16 @@ int AWeapon::GetLoadedAmmo() const
 	return LoadedAmmo;
 }
 
+FString AWeapon::GetName() const
+{
+	return Name;
+}
+
+int AWeapon::GetCurrentAmmo() const
+{
+	return CurrentAmmo;
+}
+
 // Called when the game starts or when spawned
 void AWeapon::BeginPlay()
 {
