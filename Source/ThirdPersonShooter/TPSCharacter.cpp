@@ -30,7 +30,7 @@ void ATPSCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	DrawNameplate();
+	CanDrawNameplate();
 }
 
 float ATPSCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
@@ -60,34 +60,11 @@ float ATPSCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEv
 	return 0;
 }
 
-void ATPSCharacter::DrawNameplate()
-{
-	FRotator ViewPointRotation;
-	FVector ViewPointLocation;
-	FHitResult Hit;
 
-	if (GetController() != nullptr)
-	{
-		GetController()->GetPlayerViewPoint(ViewPointLocation, ViewPointRotation);
-		FVector TraceEnd = ViewPointLocation + ViewPointRotation.Vector() * NamePlateDrawDistance;
-		FVector ForwardVector = GetCamera()->GetForwardVector();
-
-		bool bSuccess = GetWorld()->SweepSingleByChannel(Hit, ViewPointLocation, TraceEnd, FQuat(ViewPointRotation), ECollisionChannel::ECC_Camera, FCollisionShape::MakeCapsule(34.f, 88.f));
-		if (bSuccess)
-		{
-			Cast<ATPSCharacter>(Hit.Actor)->DisplayNameplate(true);
-		}
-		else
-		{
-			Cast<TSubclassOf<BP_TPSCharacter>>(Hit.Actor)->DisplayNameplate(false);
-		}
-	}
-}
-
-void ATPSCharacter::DisplayNameplate(bool isVisible)
-{
-	Nameplate->SetVisibility(isVisible);
-}
+//void ATPSCharacter::DisplayNameplate(bool isVisible)
+//{
+//	Nameplate->SetVisibility(isVisible);
+//}
 
 void ATPSCharacter::Die()
 {

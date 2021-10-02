@@ -17,6 +17,8 @@ void ATPSPlayerController::BeginPlay()
 void ATPSPlayerController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	CanDrawNameplate();
 }
 
 void ATPSPlayerController::GameHasEnded(class AActor* EndGameFocus, bool bIsWinner)
@@ -44,6 +46,23 @@ void ATPSPlayerController::GameHasEnded(class AActor* EndGameFocus, bool bIsWinn
 	
 	GetWorldTimerManager().SetTimer(RestartTimer, this, &APlayerController::RestartLevel, LevelRestartDelay);
 	UE_LOG(LogTemp, Warning, TEXT("Wainting..."));
+}
+
+void ATPSPlayerController::CanDrawNameplate()
+{
+	FRotator ViewPointRotation;
+	FVector ViewPointLocation;
+	FHitResult Hit;
+
+	GetPlayerViewPoint(ViewPointLocation, ViewPointRotation);
+	FVector TraceEnd = ViewPointLocation + ViewPointRotation.Vector() * NamePlateDrawDistance;
+	FVector ForwardVector = ControlledPawn->GetCamera()->GetForwardVector();
+
+	bool bSuccess = GetWorld()->SweepSingleByChannel(Hit, ViewPointLocation, TraceEnd, FQuat(ViewPointRotation), ECollisionChannel::ECC_Camera, FCollisionShape::MakeCapsule(34.f, 88.f));
+	ATPSCharacter* ActorHit = Cast<ATPSCharacter>(Hit.Actor);
+
+	if (ActorHit != nullptr)
+		ActorHit->DisplayNameplate(bSuccess);
 }
 
 

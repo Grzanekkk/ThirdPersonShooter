@@ -23,6 +23,7 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
+	void CanDrawNameplate();
 
 private:
 	UPROPERTY(EditAnywhere)
@@ -45,4 +46,10 @@ private:
 
 	UPROPERTY()
 		ATPSCharacter* ControlledPawn;
+
+	UPROPERTY(EditAnywhere)
+		float NamePlateDrawDistance = 500.f;
+
+	UPROPERTY(EditAnywhere)
+		UWidgetComponent* Nameplate;
 };

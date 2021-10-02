@@ -20,14 +20,9 @@ class THIRDPERSONSHOOTER_API ATPSCharacter : public ACharacter
 public:
 	// Sets default values for this character's properties
 	ATPSCharacter();
-	void DrawNameplate();
-	void DisplayNameplate(bool isVisible);
+	//void CanDrawNameplate();
+	//void DisplayNameplate(bool isVisible);
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:	
 	UFUNCTION(BlueprintPure)
 		bool IsDead() const;
 
@@ -52,7 +47,6 @@ public:
 	UFUNCTION(BlueprintPure)
 		UCameraComponent* GetCamera() const;
 
-
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -66,6 +60,9 @@ public:
 	void StopShooting();
 	void Die();
 
+	protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
 private:
 	void MoveForward(float AxisValue);
 	void MoveRight(float AxisValue);
@@ -101,9 +98,9 @@ private:
 	UPROPERTY()
 		AWeapon* EquippedGun;
 
-	UPROPERTY(EditAnywhere)
-		float NamePlateDrawDistance = 500.f;
+	//UPROPERTY(EditAnywhere)
+	//	float NamePlateDrawDistance = 500.f;
 
-	UPROPERTY(EditAnywhere)
-		UWidgetComponent* Nameplate;
+	//UPROPERTY(EditAnywhere)
+	//	UWidgetComponent* Nameplate;
 };
