@@ -3,6 +3,7 @@
 #pragma once
 
 #include "Blueprint/UserWidget.h"
+#include "TPSCharacter.h"
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
@@ -18,6 +19,7 @@ class THIRDPERSONSHOOTER_API ATPSPlayerController : public APlayerController
 
 public:
 	virtual void GameHasEnded(class AActor* EndGameFocus = nullptr, bool bIsWinner = false) override;
+	virtual void Tick(float DeltaTime) override;
 
 protected:
 	virtual void BeginPlay() override;
@@ -40,4 +42,7 @@ private:
 	
 	UPROPERTY()
 		UUserWidget* HUD;
+
+	UPROPERTY()
+		ATPSCharacter* ControlledPawn;
 };

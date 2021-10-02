@@ -4,6 +4,8 @@
 
 //#include "Blueprint/UserWidget.h"
 #include "Gun.h"
+#include "Camera/CameraComponent.h"
+#include "Components/WidgetComponent.h"
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
@@ -18,6 +20,8 @@ class THIRDPERSONSHOOTER_API ATPSCharacter : public ACharacter
 public:
 	// Sets default values for this character's properties
 	ATPSCharacter();
+	void DrawNameplate();
+	void DisplayNameplate(bool isVisible);
 
 protected:
 	// Called when the game starts or when spawned
@@ -37,7 +41,16 @@ public:
 		float GetHealthPercent() const;
 
 	UFUNCTION(BlueprintPure)
+		float GetHealth() const;
+
+	UFUNCTION(BlueprintPure)
 		AWeapon* GetEquippedWeapon() const;
+
+	UFUNCTION(BlueprintPure)
+		FString GetName() const;
+
+	UFUNCTION(BlueprintPure)
+		UCameraComponent* GetCamera() const;
 
 
 	// Called every frame
@@ -61,12 +74,14 @@ private:
 	void LookRightRate(float AxisValue);
 	void LookRight(float AxisValue);
 	
+	UPROPERTY(EditAnywhere)
+		FString Name = TEXT("Default Name");
 
 	UPROPERTY(EditAnywhere)
 		float MaxHealth = 100;
 
 	UPROPERTY(EditDefaultsOnly)
-		float CurrentHealth;
+		float CurrentHealth = 100;
 
 	UPROPERTY(EditAnywhere)
 		bool bIsDead = false;
@@ -85,4 +100,10 @@ private:
 
 	UPROPERTY()
 		AWeapon* EquippedGun;
+
+	UPROPERTY(EditAnywhere)
+		float NamePlateDrawDistance = 500.f;
+
+	UPROPERTY(EditAnywhere)
+		UWidgetComponent* Nameplate;
 };

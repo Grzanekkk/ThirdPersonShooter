@@ -88,10 +88,10 @@ protected:
 	UPROPERTY(EditAnywhere)
 		int MAG_CAPACITY = 20;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(VisibleAnywhere)
 		int CurrentAmmo;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(VisibleAnywhere)
 		int LoadedAmmo;
 
 	UPROPERTY(EditAnywhere)

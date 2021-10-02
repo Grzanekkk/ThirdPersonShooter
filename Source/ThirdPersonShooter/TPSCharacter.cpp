@@ -30,6 +30,7 @@ void ATPSCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	DrawNameplate();
 }
 
 float ATPSCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
@@ -59,6 +60,35 @@ float ATPSCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEv
 	return 0;
 }
 
+void ATPSCharacter::DrawNameplate()
+{
+	FRotator ViewPointRotation;
+	FVector ViewPointLocation;
+	FHitResult Hit;
+
+	if (GetController() != nullptr)
+	{
+		GetController()->GetPlayerViewPoint(ViewPointLocation, ViewPointRotation);
+		FVector TraceEnd = ViewPointLocation + ViewPointRotation.Vector() * NamePlateDrawDistance;
+		FVector ForwardVector = GetCamera()->GetForwardVector();
+
+		bool bSuccess = GetWorld()->SweepSingleByChannel(Hit, ViewPointLocation, TraceEnd, FQuat(ViewPointRotation), ECollisionChannel::ECC_Camera, FCollisionShape::MakeCapsule(34.f, 88.f));
+		if (bSuccess)
+		{
+			Cast<ATPSCharacter>(Hit.Actor)->DisplayNameplate(true);
+		}
+		else
+		{
+			Cast<TSubclassOf<BP_TPSCharacter>>(Hit.Actor)->DisplayNameplate(false);
+		}
+	}
+}
+
+void ATPSCharacter::DisplayNameplate(bool isVisible)
+{
+	Nameplate->SetVisibility(isVisible);
+}
+
 void ATPSCharacter::Die()
 {
 	bIsDead = true;
@@ -81,6 +111,12 @@ float ATPSCharacter::GetHealthPercent() const
 	return CurrentHealth / MaxHealth;
 }
 
+float ATPSCharacter::GetHealth() const
+{
+	return CurrentHealth;
+}
+
+
 bool ATPSCharacter::DiedFromBehind() const
 {
 	return bDiedFromBehind;
@@ -94,6 +130,16 @@ bool ATPSCharacter::IsShooting() const
 AWeapon* ATPSCharacter::GetEquippedWeapon() const
 {
 	return EquippedGun;
+}
+
+FString ATPSCharacter::GetName() const
+{
+	return Name;
+}
+
+UCameraComponent* ATPSCharacter::GetCamera() const
+{
+	return FindComponentByClass<UCameraComponent>();
 }
 
 // Called to bind functionality to input

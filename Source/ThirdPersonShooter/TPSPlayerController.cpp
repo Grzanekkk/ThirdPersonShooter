@@ -3,12 +3,20 @@
 
 #include "TPSPlayerController.h"
 #include "TimerManager.h"
+#include "Engine/World.h"
 
 void ATPSPlayerController::BeginPlay()
 {
 	HUD = CreateWidget(this, HUDClass);
 	if (HUD != nullptr)
 		HUD->AddToViewport();
+
+	ControlledPawn = Cast<ATPSCharacter>(GetPawn());
+}
+
+void ATPSPlayerController::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
 }
 
 void ATPSPlayerController::GameHasEnded(class AActor* EndGameFocus, bool bIsWinner)
@@ -37,3 +45,5 @@ void ATPSPlayerController::GameHasEnded(class AActor* EndGameFocus, bool bIsWinn
 	GetWorldTimerManager().SetTimer(RestartTimer, this, &APlayerController::RestartLevel, LevelRestartDelay);
 	UE_LOG(LogTemp, Warning, TEXT("Wainting..."));
 }
+
+
