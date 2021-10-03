@@ -21,7 +21,8 @@ public:
 	// Sets default values for this character's properties
 	ATPSCharacter();
 	//void CanDrawNameplate();
-	//void DisplayNameplate(bool isVisible);
+	void DisplayNameplate(bool IsVisible);
+	void DisableNameplate();
 
 	UFUNCTION(BlueprintPure)
 		bool IsDead() const;
@@ -37,6 +38,9 @@ public:
 
 	UFUNCTION(BlueprintPure)
 		float GetHealth() const;
+
+	UFUNCTION(BlueprintPure)
+		float GetMaxHealth() const;
 
 	UFUNCTION(BlueprintPure)
 		AWeapon* GetEquippedWeapon() const;
@@ -77,7 +81,7 @@ private:
 	UPROPERTY(EditAnywhere)
 		float MaxHealth = 100;
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(VisibleAnywhere)
 		float CurrentHealth = 100;
 
 	UPROPERTY(EditAnywhere)
@@ -98,9 +102,9 @@ private:
 	UPROPERTY()
 		AWeapon* EquippedGun;
 
-	//UPROPERTY(EditAnywhere)
-	//	float NamePlateDrawDistance = 500.f;
+	UPROPERTY(EditAnywhere)
+		UWidgetComponent* NameplateWidgetComp;
 
-	//UPROPERTY(EditAnywhere)
-	//	UWidgetComponent* Nameplate;
+	UPROPERTY(VisibleAnywhere)
+		class UNameplate* Nameplate;
 };

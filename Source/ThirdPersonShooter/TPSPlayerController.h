@@ -47,9 +47,12 @@ private:
 	UPROPERTY()
 		ATPSCharacter* ControlledPawn;
 
-	UPROPERTY(EditAnywhere)
-		float NamePlateDrawDistance = 500.f;
+	UPROPERTY()
+		ATPSCharacter* LastSeenActor = nullptr;
 
 	UPROPERTY(EditAnywhere)
-		UWidgetComponent* Nameplate;
+		float NamePlateDrawDistance = 5000.f;
+
+	UPROPERTY(EditAnywhere)
+		TSubclassOf<UUserWidget> Nameplate;
 };

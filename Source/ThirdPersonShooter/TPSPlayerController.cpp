@@ -4,14 +4,17 @@
 #include "TPSPlayerController.h"
 #include "TimerManager.h"
 #include "Engine/World.h"
+#include "Nameplate.h"
 
 void ATPSPlayerController::BeginPlay()
 {
+	ControlledPawn = Cast<ATPSCharacter>(GetPawn());
+	ControlledPawn->DisplayNameplate(false);
+
+	//Cast<UNameplate>(HUDClass->GetDefaultSubobjectByName("WBP_NamePlate"))->SetOwner(ControlledPawn);
 	HUD = CreateWidget(this, HUDClass);
 	if (HUD != nullptr)
 		HUD->AddToViewport();
-
-	ControlledPawn = Cast<ATPSCharacter>(GetPawn());
 }
 
 void ATPSPlayerController::Tick(float DeltaTime)
@@ -50,19 +53,27 @@ void ATPSPlayerController::GameHasEnded(class AActor* EndGameFocus, bool bIsWinn
 
 void ATPSPlayerController::CanDrawNameplate()
 {
-	FRotator ViewPointRotation;
-	FVector ViewPointLocation;
-	FHitResult Hit;
+	if (ControlledPawn != nullptr)
+	{
+		FRotator ViewPointRotation;
+		FVector ViewPointLocation;
+		FHitResult Hit;
 
-	GetPlayerViewPoint(ViewPointLocation, ViewPointRotation);
-	FVector TraceEnd = ViewPointLocation + ViewPointRotation.Vector() * NamePlateDrawDistance;
-	FVector ForwardVector = ControlledPawn->GetCamera()->GetForwardVector();
+		GetPlayerViewPoint(ViewPointLocation, ViewPointRotation);
+		FVector TraceEnd = ViewPointLocation + ViewPointRotation.Vector() * NamePlateDrawDistance;
+		FVector ForwardVector = ControlledPawn->GetCamera()->GetForwardVector();
 
-	bool bSuccess = GetWorld()->SweepSingleByChannel(Hit, ViewPointLocation, TraceEnd, FQuat(ViewPointRotation), ECollisionChannel::ECC_Camera, FCollisionShape::MakeCapsule(34.f, 88.f));
-	ATPSCharacter* ActorHit = Cast<ATPSCharacter>(Hit.Actor);
+		bool bSuccess = GetWorld()->SweepSingleByChannel(Hit, ViewPointLocation, TraceEnd, FQuat(ViewPointRotation), ECollisionChannel::ECC_Camera, FCollisionShape::MakeCapsule(10.f, 20.f));
+		ATPSCharacter* ActorHit = Cast<ATPSCharacter>(Hit.Actor);
 
-	if (ActorHit != nullptr)
-		ActorHit->DisplayNameplate(bSuccess);
+		if (ActorHit != nullptr && ActorHit != ControlledPawn)
+		{
+			LastSeenActor = ActorHit;
+			ActorHit->DisplayNameplate(true);
+		}
+		else if (LastSeenActor != nullptr)
+		{
+			LastSeenActor->DisableNameplate();
+		}
+	}
 }
-
-

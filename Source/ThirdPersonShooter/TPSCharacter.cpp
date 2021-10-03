@@ -3,6 +3,7 @@
 #include "TPSCharacter.h"
 #include "ThirdPersonShooterGameModeBase.h"
 
+#include "Nameplate.h"
 #include "Components/CapsuleComponent.h"
 
 // Sets default values
@@ -10,7 +11,11 @@ ATPSCharacter::ATPSCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	NameplateWidgetComp = CreateDefaultSubobject<UWidgetComponent>(TEXT("NameplateWidget"));
+	NameplateWidgetComp->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 }
+
 
 // Called when the game starts or when spawned
 void ATPSCharacter::BeginPlay()
@@ -23,14 +28,21 @@ void ATPSCharacter::BeginPlay()
 	GetMesh()->HideBoneByName(TEXT("weapon_r"), EPhysBodyOp::PBO_None);
 	EquippedGun->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("WeaponSocket"));
 	EquippedGun->SetOwner(this);
+
+	if (!GetController()->IsPlayerController())
+	{
+		Nameplate = Cast<UNameplate>(NameplateWidgetComp->GetUserWidgetObject());
+		Nameplate->SetOwner(this);
+	}
+
+	DisableNameplate();
+	//Nameplate->SetVisibility(ESlateVisibility::Hidden);
 }
 
 // Called every frame
 void ATPSCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	CanDrawNameplate();
 }
 
 float ATPSCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
@@ -60,14 +72,21 @@ float ATPSCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEv
 	return 0;
 }
 
+void ATPSCharacter::DisplayNameplate(bool IsVisible)
+{
+	if(!IsDead())
+		NameplateWidgetComp->SetVisibility(IsVisible);
+}
 
-//void ATPSCharacter::DisplayNameplate(bool isVisible)
-//{
-//	Nameplate->SetVisibility(isVisible);
-//}
+void ATPSCharacter::DisableNameplate()
+{
+	NameplateWidgetComp->SetVisibility(false);
+}
 
 void ATPSCharacter::Die()
 {
+	DisableNameplate();
+
 	bIsDead = true;
 
 	AThirdPersonShooterGameModeBase* GameMode = GetWorld()->GetAuthGameMode<AThirdPersonShooterGameModeBase>();
@@ -93,6 +112,10 @@ float ATPSCharacter::GetHealth() const
 	return CurrentHealth;
 }
 
+float ATPSCharacter::GetMaxHealth() const
+{
+	return MaxHealth;
+}
 
 bool ATPSCharacter::DiedFromBehind() const
 {
