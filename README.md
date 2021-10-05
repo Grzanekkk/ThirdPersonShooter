@@ -3,7 +3,7 @@
 If you want to run this project use Unreal Engine version 4.26 or above
 
 
-<h2>Controlls<h2>
+<h2>Controlls</h2>
 Keyboard / XBox Controller<br>
 <br>
 WSAD / Left Thumbstick- Movement<br>
