@@ -192,8 +192,11 @@ void ATPSCharacter::LookRightRate(float AxisValue)
 
 void ATPSCharacter::Shoot()
 {
-	if(EquippedGun->PullTrigger())
-		bIsShooting = true;
+	if (AllowedToShoot)
+	{
+		if (EquippedGun->PullTrigger())
+			bIsShooting = true;
+	}
 }
 
 void ATPSCharacter::StopShooting()

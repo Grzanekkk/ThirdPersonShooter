@@ -94,6 +94,9 @@ private:
 		bool bDiedFromBehind = false;
 
 	UPROPERTY(EditAnywhere)
+		bool AllowedToShoot = true;
+
+	UPROPERTY(EditAnywhere)
 		float ControllerRotarionRate = 50.0f;
 
 	UPROPERTY(EditDefaultsOnly)
