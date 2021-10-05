@@ -8,17 +8,8 @@
 // Sets default values
 AWeapon::AWeapon()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-}
-
-AController* AWeapon::GetOwnerController() const
-{
-	APawn* OwnerPawn = Cast<APawn>(GetOwner());                                   
-	if (OwnerPawn == nullptr) return nullptr;
-
-	return OwnerPawn->GetController();
 }
 
 bool AWeapon::PullTrigger()
@@ -54,6 +45,14 @@ void AWeapon::ReloadAfterDelay()
 	int AmmoToReload = FMath::Min(MAG_CAPACITY - LoadedAmmo, CurrentAmmo);	// Prevents from reloading more ammo then we have
 	LoadedAmmo += AmmoToReload;
 	CurrentAmmo -= AmmoToReload;
+}
+
+AController* AWeapon::GetOwnerController() const
+{
+	APawn* OwnerPawn = Cast<APawn>(GetOwner());
+	if (OwnerPawn == nullptr) return nullptr;
+
+	return OwnerPawn->GetController();
 }
 
 int AWeapon::GetLoadedAmmo() const

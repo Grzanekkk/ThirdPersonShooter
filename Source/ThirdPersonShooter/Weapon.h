@@ -39,7 +39,7 @@ protected:
 	AController* GetOwnerController() const;
 
 private:
-	void ReloadAfterDelay();
+	virtual void ReloadAfterDelay();
 
 public:	
 	// Called every frame
