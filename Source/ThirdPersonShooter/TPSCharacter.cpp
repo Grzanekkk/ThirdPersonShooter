@@ -24,10 +24,7 @@ void ATPSCharacter::BeginPlay()
 
 	CurrentHealth = MaxHealth;
 
-	EquippedGun = GetWorld()->SpawnActor<AWeapon>(WeaponSubclass);
-	GetMesh()->HideBoneByName(TEXT("weapon_r"), EPhysBodyOp::PBO_None);
-	EquippedGun->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("WeaponSocket"));
-	EquippedGun->SetOwner(this);
+	SpawnWeapon(EquippedWeaponBP);
 
 	if (!GetController()->IsPlayerController())
 	{
@@ -36,7 +33,6 @@ void ATPSCharacter::BeginPlay()
 	}
 
 	DisableNameplate();
-	//Nameplate->SetVisibility(ESlateVisibility::Hidden);
 }
 
 // Called every frame
@@ -95,6 +91,16 @@ void ATPSCharacter::Die()
 	
 	DetachFromControllerPendingDestroy();
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+}
+
+void ATPSCharacter::SpawnWeapon(TSubclassOf<AWeapon> Weapon)
+{
+	EquippedGun = GetWorld()->SpawnActor<AWeapon>(Weapon);
+	if (EquippedGun == nullptr)
+		return;
+	GetMesh()->HideBoneByName(TEXT("weapon_r"), EPhysBodyOp::PBO_None);
+	EquippedGun->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("WeaponSocket"));
+	EquippedGun->SetOwner(this);
 }
 
 bool ATPSCharacter::IsDead() const

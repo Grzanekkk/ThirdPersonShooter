@@ -64,6 +64,8 @@ public:
 	void StopShooting();
 	void Die();
 
+	void SpawnWeapon(TSubclassOf<AWeapon> Weapon);
+
 	protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -100,7 +102,7 @@ private:
 		float ControllerRotarionRate = 50.0f;
 
 	UPROPERTY(EditDefaultsOnly)
-		TSubclassOf<AWeapon> WeaponSubclass;
+		TSubclassOf<AWeapon> EquippedWeaponBP;
 
 	UPROPERTY()
 		AWeapon* EquippedGun;
