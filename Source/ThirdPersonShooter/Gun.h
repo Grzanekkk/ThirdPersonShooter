@@ -22,9 +22,17 @@ public:
 	bool PullTrigger() override;
 	void Reload() override;
 
+	void SpawnBulletHole(FVector Location, FRotator Rotation);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	bool HitScanTrace(FHitResult &outHitInfo, FVector &outShotDirection);
+
+	UPROPERTY(EditAnywhere)
+		UMaterialInterface* BulletHoleMaterial;
+
+private:
+	FVector BulletHoleSize = FVector(10.0f, 10.0f, 50.0f);
 };

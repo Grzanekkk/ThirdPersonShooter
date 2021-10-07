@@ -3,6 +3,8 @@
 
 #include "Gun.h"
 
+#include "Engine/DecalActor.h"
+#include "Components/DecalComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "DrawDebugHelpers.h"
@@ -48,6 +50,7 @@ bool AGun::PullTrigger()
 		else	// We didn't hit an actor
 		{
 			UGameplayStatics::SpawnSoundAtLocation(GetWorld(), TerrainImpactSound, HitInfo.Location, ShotDirection.Rotation());
+			SpawnBulletHole(HitInfo.Location, ShotDirection.Rotation());
 		}
 	}
 
@@ -79,6 +82,14 @@ bool AGun::HitScanTrace(FHitResult& outHitInfo, FVector& outShotDirection)
 	//DrawDebugLine(GetWorld(), ViewPointLocation, LineTraceEnd, FColor::Blue, true, 10.0f, 10, 5.0f);
 
 	return GetWorld()->LineTraceSingleByChannel(outHitInfo, ViewPointLocation, LineTraceEnd, ECollisionChannel::ECC_GameTraceChannel1, Params);	// ECC_EngineTraceChannel1 == "Bullet" trace channel
+}
+
+void AGun::SpawnBulletHole(FVector Location, FRotator Rotation)
+{
+	ADecalActor* Decal = GetWorld()->SpawnActor<ADecalActor>(Location, Rotation);
+	Decal->SetDecalMaterial(BulletHoleMaterial);
+	Decal->SetLifeSpan(5.0f);
+	Decal->GetDecal()->DecalSize = BulletHoleSize;
 }
 
 // Called when the game starts or when spawned
