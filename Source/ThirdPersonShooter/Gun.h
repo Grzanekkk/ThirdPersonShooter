@@ -34,5 +34,6 @@ protected:
 		UMaterialInterface* BulletHoleMaterial;
 
 private:
-	FVector BulletHoleSize = FVector(10.0f, 10.0f, 50.0f);
+	UPROPERTY(EditAnywhere)
+	FVector BulletHoleSize = FVector(15.0f, 15.0f, 60.0f);
 };

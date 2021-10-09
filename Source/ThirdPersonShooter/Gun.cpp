@@ -6,6 +6,7 @@
 #include "Engine/DecalActor.h"
 #include "Components/DecalComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetMathLibrary.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "DrawDebugHelpers.h"
 
@@ -50,7 +51,8 @@ bool AGun::PullTrigger()
 		else	// We didn't hit an actor
 		{
 			UGameplayStatics::SpawnSoundAtLocation(GetWorld(), TerrainImpactSound, HitInfo.Location, ShotDirection.Rotation());
-			SpawnBulletHole(HitInfo.Location, ShotDirection.Rotation());
+			SpawnBulletHole(HitInfo.Location, UKismetMathLibrary::MakeRotFromZX(this->GetActorUpVector(), HitInfo.Normal));
+			//SpawnBulletHole(HitInfo.Location, UKismetMathLibrary::MakeRotFromX(HitInfo.Normal));
 		}
 	}
 
