@@ -25,7 +25,7 @@ bool ALauncher::PullTrigger()
 {
 	AWeapon::PullTrigger();
 
-	return true;
+	return false;
 }
 
 void ALauncher::Reload()

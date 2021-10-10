@@ -14,6 +14,8 @@ ATPSCharacter::ATPSCharacter()
 
 	NameplateWidgetComp = CreateDefaultSubobject<UWidgetComponent>(TEXT("NameplateWidget"));
 	NameplateWidgetComp->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+
+	//InventoryComp = GetComponentByClass<UInventoryComponent>();
 }
 
 
@@ -24,7 +26,8 @@ void ATPSCharacter::BeginPlay()
 
 	CurrentHealth = MaxHealth;
 
-	SpawnWeapon(EquippedWeaponBP);
+	SetWeapon(EquippedWeaponBP);
+	GetMesh()->HideBoneByName(TEXT("weapon_r"), EPhysBodyOp::PBO_None);
 
 	if (!GetController()->IsPlayerController())
 	{
@@ -93,12 +96,16 @@ void ATPSCharacter::Die()
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
-void ATPSCharacter::SpawnWeapon(TSubclassOf<AWeapon> Weapon)
+void ATPSCharacter::SwapWeapons()
+{
+	SetWeapon(InventoryComp->SwapWeapon());
+}
+
+void ATPSCharacter::SetWeapon(TSubclassOf<AWeapon> Weapon)
 {
 	EquippedGun = GetWorld()->SpawnActor<AWeapon>(Weapon);
 	if (EquippedGun == nullptr)
 		return;
-	GetMesh()->HideBoneByName(TEXT("weapon_r"), EPhysBodyOp::PBO_None);
 	EquippedGun->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("WeaponSocket"));
 	EquippedGun->SetOwner(this);
 }
@@ -164,6 +171,7 @@ void ATPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 	PlayerInputComponent->BindAction(TEXT("Jump"), EInputEvent::IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction(TEXT("Shoot"), EInputEvent::IE_Pressed, this, &ATPSCharacter::Shoot);
 	PlayerInputComponent->BindAction(TEXT("Shoot"), EInputEvent::IE_Released, this, &ATPSCharacter::StopShooting);
+	PlayerInputComponent->BindAction(TEXT("SwapWeapon"), EInputEvent::IE_Released, this, &ATPSCharacter::SwapWeapons);
 }
 
 void ATPSCharacter::MoveForward(float AxisValue)

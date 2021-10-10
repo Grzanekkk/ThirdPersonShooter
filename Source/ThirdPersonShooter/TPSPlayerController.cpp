@@ -63,7 +63,7 @@ void ATPSPlayerController::CanDrawNameplate()
 		FVector TraceEnd = ViewPointLocation + ViewPointRotation.Vector() * NamePlateDrawDistance;
 		FVector ForwardVector = ControlledPawn->GetCamera()->GetForwardVector();
 
-		bool bSuccess = GetWorld()->SweepSingleByChannel(Hit, ViewPointLocation, TraceEnd, FQuat(ViewPointRotation), ECollisionChannel::ECC_Camera, FCollisionShape::MakeCapsule(10.f, 20.f));
+		bool bSuccess = GetWorld()->SweepSingleByChannel(Hit, ViewPointLocation, TraceEnd, FQuat(ViewPointRotation), ECollisionChannel::ECC_Camera, FCollisionShape::MakeCapsule(30.f, 20.f));
 		ATPSCharacter* ActorHit = Cast<ATPSCharacter>(Hit.Actor);
 
 		if (ActorHit != nullptr && ActorHit != ControlledPawn)

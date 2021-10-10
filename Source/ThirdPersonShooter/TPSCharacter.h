@@ -4,6 +4,7 @@
 
 //#include "Blueprint/UserWidget.h"
 #include "Gun.h"
+#include "InventoryComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/WidgetComponent.h"
 
@@ -63,8 +64,9 @@ public:
 	void Shoot();
 	void StopShooting();
 	void Die();
+	void SetWeapon(TSubclassOf<AWeapon> Weapon);
 
-	void SpawnWeapon(TSubclassOf<AWeapon> Weapon);
+	void SwapWeapons();
 
 	protected:
 	// Called when the game starts or when spawned
@@ -106,6 +108,9 @@ private:
 
 	UPROPERTY()
 		AWeapon* EquippedGun;
+
+	UPROPERTY()
+		UInventoryComponent* InventoryComp;
 
 	UPROPERTY(EditAnywhere)
 		UWidgetComponent* NameplateWidgetComp;
