@@ -11,10 +11,10 @@ UInventoryComponent::UInventoryComponent()
 
 TSubclassOf<AWeapon> UInventoryComponent::SwapWeapon()
 {
-	if (SelectedWeaponSlot == 1)
-		SelectedWeaponSlot = 0;
-	else
+	if (SelectedWeaponSlot == 0)
 		SelectedWeaponSlot = 1;
+	else
+		SelectedWeaponSlot = 0;
 
 	return Weapons[SelectedWeaponSlot];
 }

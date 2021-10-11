@@ -31,7 +31,7 @@ protected:
 	bool HitScanTrace(FHitResult &outHitInfo, FVector &outShotDirection);
 
 	UPROPERTY(EditAnywhere)
-		UMaterialInterface* BulletHoleMaterial;
+	UMaterialInterface* BulletHoleMaterial;
 
 private:
 	UPROPERTY(EditAnywhere)

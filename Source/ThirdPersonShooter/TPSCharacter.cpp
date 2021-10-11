@@ -14,8 +14,6 @@ ATPSCharacter::ATPSCharacter()
 
 	NameplateWidgetComp = CreateDefaultSubobject<UWidgetComponent>(TEXT("NameplateWidget"));
 	NameplateWidgetComp->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
-
-	//InventoryComp = GetComponentByClass<UInventoryComponent>();
 }
 
 
@@ -24,9 +22,12 @@ void ATPSCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
+	InventoryComp = FindComponentByClass<UInventoryComponent>();
+
 	CurrentHealth = MaxHealth;
 
-	SetWeapon(EquippedWeaponBP);
+	//SetWeapon(EquippedWeaponBP);
+	SwapWeapons();
 	GetMesh()->HideBoneByName(TEXT("weapon_r"), EPhysBodyOp::PBO_None);
 
 	if (!GetController()->IsPlayerController())
@@ -98,11 +99,15 @@ void ATPSCharacter::Die()
 
 void ATPSCharacter::SwapWeapons()
 {
-	SetWeapon(InventoryComp->SwapWeapon());
+	if(InventoryComp != nullptr)
+		SetWeapon(InventoryComp->SwapWeapon());
 }
 
 void ATPSCharacter::SetWeapon(TSubclassOf<AWeapon> Weapon)
 {
+	if (EquippedGun != nullptr)
+		EquippedGun->Destroy();
+
 	EquippedGun = GetWorld()->SpawnActor<AWeapon>(Weapon);
 	if (EquippedGun == nullptr)
 		return;

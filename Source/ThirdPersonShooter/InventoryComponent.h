@@ -29,7 +29,7 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 private:
-	unsigned int SelectedWeaponSlot = 0;
+	unsigned int SelectedWeaponSlot = 1;
 	TArray<TSubclassOf<AWeapon>> Weapons;
 
 	UPROPERTY(EditAnywhere)
