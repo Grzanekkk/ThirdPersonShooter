@@ -25,32 +25,32 @@ public:
 	void DisplayNameplate(bool IsVisible);
 	void DisableNameplate();
 
-	UFUNCTION(BlueprintPure)
-		bool IsDead() const;
+	UFUNCTION(BlueprintPure, Category = "Health")
+		FORCEINLINE bool IsDead() const { return bIsDead; }
 
-	UFUNCTION(BlueprintPure)
-		bool DiedFromBehind() const;
+	UFUNCTION(BlueprintPure, Category = "Health")
+		FORCEINLINE bool DiedFromBehind() const { return bDiedFromBehind; }
 
-	UFUNCTION(BlueprintPure)
-		bool IsShooting() const;
+	UFUNCTION(BlueprintPure, Category = "Health")
+		FORCEINLINE bool IsShooting() const { return bIsShooting; }
 
-	UFUNCTION(BlueprintPure)
-		float GetHealthPercent() const;
+	UFUNCTION(BlueprintPure, Category = "Health")
+		FORCEINLINE float GetHealthPercent() const { return CurrentHealth / MaxHealth; }
 
-	UFUNCTION(BlueprintPure)
-		float GetHealth() const;
+	UFUNCTION(BlueprintPure, Category = "Health")
+		FORCEINLINE float GetHealth() const { return CurrentHealth; }
 
-	UFUNCTION(BlueprintPure)
-		float GetMaxHealth() const;
+	UFUNCTION(BlueprintPure, Category = "Health")
+		FORCEINLINE float GetMaxHealth() const { return MaxHealth; }
 
-	UFUNCTION(BlueprintPure)
-		AWeapon* GetEquippedWeapon() const;
+	UFUNCTION(BlueprintPure, Category = "Weapons")
+		AWeapon* GetEquippedWeapon() const { return EquippedGun; }
 
-	UFUNCTION(BlueprintPure)
-		FString GetName() const;
+	UFUNCTION(BlueprintPure, Category = "Name")
+		FString GetName() const { return Name; }
 
-	UFUNCTION(BlueprintPure)
-		UCameraComponent* GetCamera() const;
+	UFUNCTION(BlueprintPure, Category = "Camera")
+		UCameraComponent* GetCamera() const { return FindComponentByClass<UCameraComponent>(); }
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -68,7 +68,7 @@ public:
 
 	void SwapWeapons();
 
-	protected:
+protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 private:

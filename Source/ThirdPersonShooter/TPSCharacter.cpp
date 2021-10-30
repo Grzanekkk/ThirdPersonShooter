@@ -115,51 +115,6 @@ void ATPSCharacter::SetWeapon(TSubclassOf<AWeapon> Weapon)
 	EquippedGun->SetOwner(this);
 }
 
-bool ATPSCharacter::IsDead() const
-{
-	return bIsDead;
-}
-
-float ATPSCharacter::GetHealthPercent() const
-{
-	return CurrentHealth / MaxHealth;
-}
-
-float ATPSCharacter::GetHealth() const
-{
-	return CurrentHealth;
-}
-
-float ATPSCharacter::GetMaxHealth() const
-{
-	return MaxHealth;
-}
-
-bool ATPSCharacter::DiedFromBehind() const
-{
-	return bDiedFromBehind;
-}
-
-bool ATPSCharacter::IsShooting() const
-{
-	return bIsShooting;
-}
-
-AWeapon* ATPSCharacter::GetEquippedWeapon() const
-{
-	return EquippedGun;
-}
-
-FString ATPSCharacter::GetName() const
-{
-	return Name;
-}
-
-UCameraComponent* ATPSCharacter::GetCamera() const
-{
-	return FindComponentByClass<UCameraComponent>();
-}
-
 // Called to bind functionality to input
 void ATPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
