@@ -21,7 +21,6 @@ AGun::AGun()
 
 	Mesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh"));
 	Mesh->SetupAttachment(Root);
-
 }
 
 bool AGun::PullTrigger()

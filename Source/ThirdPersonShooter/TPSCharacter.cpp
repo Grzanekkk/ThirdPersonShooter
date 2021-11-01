@@ -1,8 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TPSCharacter.h"
-#include "ThirdPersonShooterGameModeBase.h"
 
+#include "ThirdPersonShooterGameModeBase.h"
 #include "Nameplate.h"
 #include "Components/CapsuleComponent.h"
 
@@ -166,10 +166,10 @@ void ATPSCharacter::LookRightRate(float AxisValue)
 
 void ATPSCharacter::Shoot()
 {
-	if (AllowedToShoot)
+	if (!bIsShooting && EquippedGun->PullTrigger())
 	{
-		if (EquippedGun->PullTrigger())
-			bIsShooting = true;
+		bIsShooting = true;
+		GetWorld()->GetTimerManager().SetTimer(TimeHandler, this, &ATPSCharacter::StopShooting, EquippedGun->GetFireRate(), false);
 	}
 }
 

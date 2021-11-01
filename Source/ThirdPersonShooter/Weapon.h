@@ -22,6 +22,9 @@ public:
 	virtual void Reload();
 
 	UFUNCTION(BlueprintPure)
+		FORCEINLINE float GetFireRate() { return FireRate; }
+
+	UFUNCTION(BlueprintPure)
 		int GetCurrentAmmo() const;
 
 	UFUNCTION(BlueprintPure)
@@ -98,7 +101,7 @@ protected:
 		float ReloadTime = 1.6f;
 
 	UPROPERTY(EditAnywhere)		// Shots per second
-		float FireRate = 4.f;
+		float FireRate = 0.4f;
 
 	UPROPERTY(EditAnywhere)
 		FString Name;

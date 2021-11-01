@@ -2,11 +2,11 @@
 
 #pragma once
 
-//#include "Blueprint/UserWidget.h"
 #include "Gun.h"
 #include "InventoryComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/WidgetComponent.h"
+#include "TimerManager.h"
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
@@ -98,9 +98,6 @@ private:
 		bool bDiedFromBehind = false;
 
 	UPROPERTY(EditAnywhere)
-		bool AllowedToShoot = true;
-
-	UPROPERTY(EditAnywhere)
 		float ControllerRotarionRate = 50.0f;
 
 	UPROPERTY(EditDefaultsOnly)
@@ -117,4 +114,7 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 		class UNameplate* Nameplate;
+
+	UPROPERTY()
+		FTimerHandle TimeHandler;
 };
